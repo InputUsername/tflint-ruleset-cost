@@ -18,7 +18,7 @@ func NewCostAwsBudgetRule() *CostAwsBudgetRule {
 
 // Name returns the rule name
 func (r *CostAwsBudgetRule) Name() string {
-	return "cost_aws_budget_exists"
+	return "cost_aws_budget"
 }
 
 // Enabled returns whether the rule is enabled by default
@@ -38,11 +38,7 @@ func (r *CostAwsBudgetRule) Link() string {
 
 // Check checks whether ...
 func (r *CostAwsBudgetRule) Check(runner tflint.Runner) error {
-	resources, err := runner.GetResourceContent("aws_budgets_budget", &hclext.BodySchema{
-		Attributes: []hclext.AttributeSchema{
-			{Name: "name"},
-		},
-	}, nil)
+	resources, err := runner.GetResourceContent("aws_budgets_budget", &hclext.BodySchema{}, nil)
 	if err != nil {
 		return err
 	}
