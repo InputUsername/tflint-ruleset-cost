@@ -76,7 +76,10 @@ func (r *CostGoogleBudgetRule) Check(runner tflint.Runner) error {
 			return nil
 		}
 
-		runner.EmitIssue(r, "no budget defined", tfBlocks.Blocks[0].DefRange)
+		err = runner.EmitIssue(r, "no budget defined", tfBlocks.Blocks[0].DefRange)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

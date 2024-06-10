@@ -48,7 +48,7 @@ terraform {
 	}
 }
 
-resource "aws_budgets_budget" "ec2_cost" {
+resource "aws_budgets_budget" "budget" {
 }`,
 			Expected: helper.Issues{},
 		},
