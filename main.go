@@ -15,6 +15,10 @@ func main() {
 				rules.NewCostAwsBudgetRule(),
 				rules.NewCostGoogleBudgetRule(),
 				rules.NewCostAzureBudgetRule(),
+
+				rules.NewCostAwsObjectStorageLifecycleRule(),
+
+				rules.NewCostAwsExpensiveDynamoDbRule(),
 			},
 		},
 	})
