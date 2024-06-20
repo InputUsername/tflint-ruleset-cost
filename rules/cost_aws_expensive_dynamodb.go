@@ -32,7 +32,7 @@ func (r *CostAwsExpensiveDynamoDbRule) Severity() tflint.Severity {
 
 // Link returns the rule reference link
 func (r *CostAwsExpensiveDynamoDbRule) Link() string {
-	return "https://search-rug.github.io/iac-cost-patterns/budget/"
+	return "https://search-rug.github.io/iac-cost-patterns/aws-expensive-dynamodb/"
 }
 
 // Check checks whether ...

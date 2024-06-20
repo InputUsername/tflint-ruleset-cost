@@ -34,7 +34,7 @@ func (r *CostAwsObjectStorageLifecycleRule) Severity() tflint.Severity {
 
 // Link returns the rule reference link
 func (r *CostAwsObjectStorageLifecycleRule) Link() string {
-	return ""
+	return "https://search-rug.github.io/iac-cost-patterns/object-storage-lifecycle-rules/"
 }
 
 // Check checks whether ...
