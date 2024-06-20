@@ -18,6 +18,8 @@ func main() {
 
 				rules.NewCostAwsObjectStorageLifecycleRule(),
 
+				rules.NewCostAwsOldGenerationRule(),
+
 				rules.NewCostAwsExpensiveDynamoDbRule(),
 			},
 		},
