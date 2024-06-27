@@ -38,12 +38,37 @@ func (r *CostAwsBudgetRule) Link() string {
 
 // Check checks whether ...
 func (r *CostAwsBudgetRule) Check(runner tflint.Runner) error {
-	resources, err := runner.GetResourceContent("aws_budgets_budget", &hclext.BodySchema{}, nil)
+	budgets, err := runner.GetResourceContent("aws_budgets_budget", &hclext.BodySchema{}, nil)
 	if err != nil {
 		return err
 	}
 
-	if len(resources.Blocks) == 0 {
+	metricAlarms, err := runner.GetResourceContent("aws_cloudwatch_metric_alarm", &hclext.BodySchema{
+		Attributes: []hclext.AttributeSchema{
+			{Name: "metric_name"},
+		},
+	}, nil)
+	if err != nil {
+		return err
+	}
+
+	billingAlarmExists := false
+	for _, metricAlarm := range metricAlarms.Blocks {
+		if err := runner.EvaluateExpr(metricAlarm.Body.Attributes["metric_name"].Expr, func(val string) error {
+			if val == "EstimatedCharges" {
+				billingAlarmExists = true
+			}
+			return nil
+		}, nil); err != nil {
+			return err
+		}
+
+		if billingAlarmExists {
+			break
+		}
+	}
+
+	if len(budgets.Blocks) == 0 && !billingAlarmExists {
 		tfBlocks, err := runner.GetModuleContent(&hclext.BodySchema{
 			Blocks: []hclext.BlockSchema{
 				{

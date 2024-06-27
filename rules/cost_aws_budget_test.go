@@ -14,7 +14,7 @@ func Test_CostAwsBudget(t *testing.T) {
 		Expected helper.Issues
 	}{
 		{
-			Name: "issue found",
+			Name: "no budget or billing alarm found",
 			Content: `
 terraform {
 	required_providers {
@@ -37,7 +37,7 @@ terraform {
 			},
 		},
 		{
-			Name: "no issue found",
+			Name: "budget defined",
 			Content: `
 terraform {
 	required_providers {
@@ -49,6 +49,23 @@ terraform {
 }
 
 resource "aws_budgets_budget" "budget" {
+}`,
+			Expected: helper.Issues{},
+		},
+		{
+			Name: "budget defined",
+			Content: `
+terraform {
+	required_providers {
+		aws {
+			source = "hashicorp/aws"
+			version = "5.51.1"
+		}
+	}
+}
+
+resource "aws_cloudwatch_metric_alarm" "billing" {
+	metric_name = "EstimatedCharges"
 }`,
 			Expected: helper.Issues{},
 		},
